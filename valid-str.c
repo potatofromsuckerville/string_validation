@@ -1,41 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-
-#define INPUT_ERROR -1
-#define INPUT_TRUNCATED 0
-#define INPUT_VALID 1
-#define INPUT_EMPTY 2
-
-int get_input(char* buffer, size_t buff_size) {
-	
-	if (fgets(buffer, buff_size, stdin) == NULL) {
-		return INPUT_ERROR;
-		}
-		
-	int stringLength; 
-	stringLength = strlen(buffer);
-	
-	if (stringLength == 1) {
-		return INPUT_EMPTY;
-		}
-	
-	else if (buffer[stringLength - 1] == '\n') { // i.e. less than max
-		buffer[stringLength - 1] = '\0';
-		return INPUT_VALID;
-		}
-			
-	else {
-		if (getchar() == '\n') {
-			return INPUT_VALID;
-			}
-		else {
-			int c;
-			while ((c = getchar()) != '\n' && c != EOF) {
-				}
-			return INPUT_TRUNCATED;
-			}	
-		}
-	}
+#include "get_input.h"
 
 int main() {
 	
@@ -53,10 +18,14 @@ int main() {
 			printf("Warning: Buffer overflow. Input truncated to \"%s\". \n", input);
 			break;
 			
-		case INPUT_VALID:
-			printf("Full input received. You entered: %s \n", input);
+		case INPUT_VALID_LTM:
+			printf("Full input received (less than max). You entered: %s \n", input);
 			break;
-			
+
+		case INPUT_VALID_MAX:
+			printf("Full input received (Exactly max). You entered: %s \n", input);
+			break;
+						
 		case INPUT_EMPTY:
 			printf("Empty input. Program terminated. \n");
 			break;
@@ -68,3 +37,4 @@ int main() {
 	
 	return 0;
 	}
+
